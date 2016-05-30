@@ -23,7 +23,7 @@ class Users extends CI_Controller {
 
 		//$num_rows=$this->db->get_all_users()->result();
 		//$config['base_url'] = base_url().'/index.php/users';
-		$config['base_url'] = base_url().'index.php/users';
+		$config['base_url'] = base_url().'index.php/user';
 		$config['total_rows']=10;
 		$config['per_page']=5;
 		$config['num_links']=5;
