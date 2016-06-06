@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2016 at 12:43 AM
+-- Generation Time: Jun 07, 2016 at 07:53 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -28,12 +28,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `cart` (
 `c_id` int(20) NOT NULL,
+  `u_id` varchar(80) NOT NULL,
   `p_id` int(10) NOT NULL,
   `p_name` varchar(30) NOT NULL,
   `p_image` text NOT NULL,
   `p_qty` int(40) NOT NULL,
   `p_price` int(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`c_id`, `u_id`, `p_id`, `p_name`, `p_image`, `p_qty`, `p_price`) VALUES
+(1, 'af3267ad26e6d17cda667d7ec5bdf16d', 1, 'T-Shirt', 'http://localhost/Fahim/assets/images/tshirt.jpg', 14, 1500),
+(2, 'af3267ad26e6d17cda667d7ec5bdf16d', 3, 'Bag Pack', 'http://localhost/Fahim/assets/images/bag.jpg', 15, 1600);
 
 -- --------------------------------------------------------
 
@@ -43,9 +52,21 @@ CREATE TABLE IF NOT EXISTS `cart` (
 
 CREATE TABLE IF NOT EXISTS `categories` (
 `category_id` int(50) NOT NULL,
-  `categoty_name` varchar(50) NOT NULL,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `category_name` varchar(50) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `category_size` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `category_name`, `status`, `category_size`) VALUES
+(6, 'ELECTRONIC GADGET', 1, 'NULL'),
+(7, 'FASHION FOR MEN', 1, 'XL,M,XXL'),
+(8, 'FASHION FOR WOMEN', 1, 'XL,M,XXL'),
+(9, 'ACCESORIES-MEN', 1, 'XL,M,XXL'),
+(10, 'ACCESORIES-WOMEN', 1, 'XL,M,XXL');
 
 -- --------------------------------------------------------
 
@@ -54,24 +75,12 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 CREATE TABLE IF NOT EXISTS `ci_sessions` (
-`session_id` int(40) NOT NULL,
-  `ip_address` varchar(45) NOT NULL,
-  `last_activity` varchar(40) NOT NULL,
-  `user_agent` int(40) NOT NULL,
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(45) NOT NULL DEFAULT '0',
+  `user_agent` varchar(120) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
   `user_data` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2147483647 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ci_sessions`
---
-
-INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `last_activity`, `user_agent`, `user_data`) VALUES
-(5, '::1', '1464508602', 0, ''),
-(8, '::1', '1464506360', 0, 'a:2:{s:9:"user_data";s:0:"";s:9:"logged_in";a:3:{s:8:"username";s:5:"walid";s:5:"email";s:15:"walid@gmail.com";s:4:"type";s:5:"admin";}}'),
-(9, '::1', '1464506788', 0, ''),
-(105, '::1', '1464508136', 0, ''),
-(727, '::1', '1464510310', 0, 'a:1:{s:9:"user_data";s:0:"";}'),
-(2147483647, '::1', '1464508128', 0, 'a:2:{s:9:"user_data";s:0:"";s:9:"logged_in";a:3:{s:8:"username";s:5:"hamza";s:5:"email";s:15:"hamza@gmail.com";s:4:"type";s:4:"user";}}');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -82,7 +91,18 @@ INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `last_activity`, `user_ag
 CREATE TABLE IF NOT EXISTS `manufacturer` (
 `m_id` int(20) NOT NULL,
   `m_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `manufacturer`
+--
+
+INSERT INTO `manufacturer` (`m_id`, `m_name`) VALUES
+(1, 'Cats Eye'),
+(2, 'Le Reve'),
+(3, 'Mountain'),
+(4, 'Samsung'),
+(5, 'Nike');
 
 -- --------------------------------------------------------
 
@@ -105,9 +125,16 @@ CREATE TABLE IF NOT EXISTS `order` (
 CREATE TABLE IF NOT EXISTS `payment` (
 `pay_id` int(20) NOT NULL,
   `pay_type` varchar(30) NOT NULL,
-  `pay_date` datetime(6) NOT NULL,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `pay_date` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `status` varchar(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`pay_id`, `pay_type`, `pay_date`, `status`) VALUES
+(1, 'cash_on_delivery', '2016-06-07 05:52:03.365119', 'pending');
 
 -- --------------------------------------------------------
 
@@ -122,16 +149,20 @@ CREATE TABLE IF NOT EXISTS `product` (
   `p_qty` int(50) NOT NULL,
   `p_price` int(40) NOT NULL,
   `p_description` varchar(70) NOT NULL,
-  `c_id` int(20) NOT NULL,
+  `category_id` int(20) NOT NULL,
   `m_id` int(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`p_id`, `p_name`, `p_image`, `p_qty`, `p_price`, `p_description`, `c_id`, `m_id`) VALUES
-(1, 'T-Shirt', '../assets/images/t-shirt.jpg', 200, 150, 'cotton shirt imported from dubai.fine quality', 1, 1);
+INSERT INTO `product` (`p_id`, `p_name`, `p_image`, `p_qty`, `p_price`, `p_description`, `category_id`, `m_id`) VALUES
+(1, 'T-Shirt', 'http://localhost/Fahim/assets/images/tshirt.jpg', 2500, 1500, 'cotton shirt imported from dubai.fine quality', 7, 1),
+(2, 'Panjabi', 'http://localhost/Fahim/assets/images/punjabi.jpg', 140, 1800, 'good quality.', 7, 2),
+(3, 'Bag Pack', 'http://localhost/Fahim/assets/images/bag.jpg', 250, 1600, 'imported from usa', 9, 3),
+(9, 'mobile', 'http://localhost/Fahim/assets/images/mobile.jpg', 500, 18900, 'original handset,come from abroad.better quality', 6, 4),
+(10, 'Sports Shoe', 'http://localhost/Fahim/assets/images/turf.jpg', 150, 1700, 'excellent quality and come from abroad', 9, 5);
 
 -- --------------------------------------------------------
 
@@ -141,10 +172,21 @@ INSERT INTO `product` (`p_id`, `p_name`, `p_image`, `p_qty`, `p_price`, `p_descr
 
 CREATE TABLE IF NOT EXISTS `shipping` (
 `s_id` int(20) NOT NULL,
-  `p_id` int(20) NOT NULL,
   `u_id` int(20) NOT NULL,
-  `c_id` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `full_name` varchar(50) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `mobile` int(20) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `country` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shipping`
+--
+
+INSERT INTO `shipping` (`s_id`, `u_id`, `full_name`, `email`, `address`, `mobile`, `city`, `country`) VALUES
+(1, 1, 'walid alam', 'walidalam007@gmail.com', 'manikdee.dhaka', 1781790725, 'dhaka', '0');
 
 -- --------------------------------------------------------
 
@@ -157,19 +199,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_name` varchar(30) NOT NULL,
   `u_password` varchar(30) NOT NULL,
   `u_email` varchar(20) NOT NULL,
-  `u_mobile` int(20) NOT NULL,
+  `u_mobile` varchar(20) NOT NULL,
   `u_address` varchar(30) NOT NULL,
   `u_type` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`u_id`, `u_name`, `u_password`, `u_email`, `u_mobile`, `u_address`, `u_type`) VALUES
-(1, 'walid', '12345', 'walid@gmail.com', 1781790725, 'manikdee,dhaka-1206', 'admin'),
-(2, 'hamza', '1234', 'hamza@gmail.com', 1678795455, 'shemoli,dhaka', 'user'),
-(3, 'nabil', '1234', 'nabil@gmail.com', 154869872, 'malibag,dhaka', 'user');
+(1, 'walid', '12345', 'walid@gmail.com', '01781790725', 'manikdee,dhaka-1206', 'admin'),
+(2, 'hamza', '1234', 'hamza@gmail.com', '01678795455', 'shemoli,dhaka', 'user'),
+(3, 'nabil', '1234', 'nabil@gmail.com', '0154869872', 'malibag,dhaka', 'user'),
+(7, 'akash', '1234', 'aksh@yahoo.com', '0178548695', 'banani,dhaka', 'user'),
+(12, 'pique', '1234', 'piq@yahoo.com', '0167586948', 'badda,rampura', 'user');
 
 --
 -- Indexes for dumped tables
@@ -191,7 +235,7 @@ ALTER TABLE `categories`
 -- Indexes for table `ci_sessions`
 --
 ALTER TABLE `ci_sessions`
- ADD PRIMARY KEY (`session_id`);
+ ADD PRIMARY KEY (`session_id`), ADD KEY `last_activity_idx` (`last_activity`);
 
 --
 -- Indexes for table `manufacturer`
@@ -237,22 +281,17 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-MODIFY `c_id` int(20) NOT NULL AUTO_INCREMENT;
+MODIFY `c_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-MODIFY `category_id` int(50) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ci_sessions`
---
-ALTER TABLE `ci_sessions`
-MODIFY `session_id` int(40) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2147483647;
+MODIFY `category_id` int(50) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `manufacturer`
 --
 ALTER TABLE `manufacturer`
-MODIFY `m_id` int(20) NOT NULL AUTO_INCREMENT;
+MODIFY `m_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `order`
 --
@@ -262,22 +301,22 @@ MODIFY `o_id` int(20) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-MODIFY `pay_id` int(20) NOT NULL AUTO_INCREMENT;
+MODIFY `pay_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-MODIFY `p_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `p_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `shipping`
 --
 ALTER TABLE `shipping`
-MODIFY `s_id` int(20) NOT NULL AUTO_INCREMENT;
+MODIFY `s_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `u_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `u_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -8,6 +8,7 @@
 					{
 						$username = ($this->session->userdata['logged_in']['username']);
 						$email = ($this->session->userdata['logged_in']['email']);
+						$id = ($this->session->userdata['logged_in']['id']);
 					} else 
 						{
 							header("location: login");
@@ -30,6 +31,9 @@
 						echo "Your Username is " . $username;
 						echo "<br/>";
 						echo "Your Email is " . $email;
+						echo "<br/>";
+						echo "<br/>";
+						echo "Your Username Id is " . $id;
 						
 						echo "<br/>";
 						?>

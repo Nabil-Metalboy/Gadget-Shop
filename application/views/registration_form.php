@@ -34,6 +34,11 @@
 					}
 					echo "</div>";
 					echo"<br/>";
+					
+					echo form_label('Password : ');
+					echo"<br/>";
+					echo form_input('password');
+					echo"<br/>";
 					echo form_label('Email : ');
 					echo"<br/>";
 					$data = array(
@@ -43,10 +48,13 @@
 					echo form_input($data);
 					echo"<br/>";
 					echo"<br/>";
-					echo form_label('Password : ');
+					echo form_label('mobile : ');
 					echo"<br/>";
-					echo form_password('password');
+					echo form_input('mobile');
+					echo "<br/>";;
+					echo form_label('address : ');
 					echo"<br/>";
+					echo form_input('address');
 					echo"<br/>";
 					echo form_submit('submit','Sign Up');
 					echo form_close();

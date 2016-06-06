@@ -6,18 +6,38 @@
 	<title>User Shopping Cart</title>
 </head>
 <body>
+<?php if (isset($this->session->userdata['logged_in'])) 
+	{
+		$username = ($this->session->userdata['logged_in']['username']);
+		$type = ($this->session->userdata['logged_in']['type']);
+		$id = ($this->session->userdata['logged_in']['id']);
+	} else 
+		{
+			header("location: login");
+		}
+?>
+						<div id="profile">
+						<?php
+
+						echo "Your Username Id is " . $id;
+						
+						echo "<br/>";
+						?>
 <center>
 	<h3>Cart Infromation</h3>
 	<?php echo anchor('users/user_panel','Continue Shopping')?>
 	<br/>
 	<br/>
 	<?php echo form_open('users/update');?>
-	<table cellpadding="6" cellspacing="1" border="1">
+	<table cellpadding="6 cellspacing="1" border="1">
 
 <tr>
+  <th>User_Id</th>
   <th>Option</th>
+  <th>Product_Id</th>
+  <th>Product_Image</th>
   <th>QTY</th>
-  <th>Item Description</th>
+  <th>Item Name</th>
   <th>Item Price</th>
   <th>Sub-Total</th>
 </tr>
@@ -29,9 +49,29 @@
 	<?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
 	<tr>
-	  <td align="center"><?php echo anchor('users/user_cart_delete/'.$items['rowid'],'X') ?></td>
-	  <td><?php echo form_input(array('name' => 'qty'.$i, 'value' => $items['qty'], 'maxlength' => '3', 'size' => '1')); ?></td>
-	  <td>
+	  <!--PRINT USER_ID-->
+
+	  <td align="center"><?php echo $id; ?></td>
+
+	  <!--OPTION-->
+
+	  <td align="center"><?php echo anchor('users/user_cart_delete/'.$items['rowid'],'DELETE') ?></td>
+
+	  <!--PRODUCT_ID-->
+
+	  <td align="center"><?php echo $items['id']; ?></td>
+
+	  <!--PRODUCT_IMAGE-->
+
+	  <td><img src= "<?php echo $items['image'] ;?>" width=150 height=70></td>
+
+	  <!--QTY-->
+
+	  <td align="center"><?php echo form_input(array('name' => 'qty'.$i, 'value' => $items['qty'], 'maxlength' => '3', 'size' => '1')); ?></td>
+
+	  <!--ITEM_NAME-->
+
+	  <td align="center">
 		<?php echo $items['name']; ?>
 
 			<?php if ($this->cart->has_options($items['rowid']) == TRUE): ?>
@@ -57,27 +97,19 @@
 
 <?php endforeach; ?>
 <tr>
-  <td colspan="1"></td>
-  <td class="right"><strong>Items no.</strong></td>
-  <td class="right"><?php echo $this->cart->format_number($this->cart->total_items()); ?></td
+  <td colspan="3"></td>
+  <td class="right" align="center"><strong>Items no.</strong></td>
+  <td class="right"><?php echo $this->cart->format_number($this->cart->total_items()); ?></td>
   <td colspan="1"> </td>
-  <td class="right"><strong>Total</strong></td>
+  <td class="right" align="center"><strong>Total</strong></td>
   <td class="right">$<?php echo $this->cart->format_number($this->cart->total()); ?></td>
 </tr>
 
 </table>
-
+<br/>
 <p><?php echo form_submit('','Update your Cart'); ?></p>
-
-<button onclick="mybutton()">Check Out</button>
-	<script type='text/javascript' >
-		function mybutton() //calling mubutton() function after clicking
-			{
-				
-				alert('Successfully Checked Out');
-				//window.location.replace('/ci/index.php/users');
-			}
-	</script>
+<br/>
+<a href="shipping">Shipping</a>
 </center>
 </body>
 </html>

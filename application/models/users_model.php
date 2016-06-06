@@ -15,7 +15,7 @@ class Users_model extends CI_Model{
 	
 	public function get_single_user($userid)
 	{
-		$user = $this->db->where('id', $userid)->get('user')->result();
+		$user = $this->db->where('u_id', $userid)->get('user')->result();
 		if($user) {
 			return $user[0];
 		} else {
@@ -26,25 +26,37 @@ class Users_model extends CI_Model{
 
 	public function update_user_data($info)
 	{
-		$this->db->where('id', $info['id'])->update('user', array(
-			'name' => $info['name'] ,'email'=>$info['email'] ,'address'=>$info['address'] ,'mobile'=>$info['mobile']
+		$this->db->where('u_id', $info['id'])->update('user', array(
+			'u_name' => $info['u_name'] ,'u_email'=>$info['u_email'] ,'u_password'=>$info['u_password'] ,'u_mobile'=>$info['u_mobile'],'u_address'=>$info['u_address']
 		));
 	}
 	public function delete_user_data($info)
 	{
-		$this->db->where('id',$info['id']);
+		$this->db->where('u_id',$info['u_id']);
 		$this->db->delete('user');
 	}
 	public function insert_database($info)
 	{
 		$data=array(
-			'id'=>$info['id'],
-			'name'=>$info['name'],
-			'email'=>$info['email'],
-			'address'=>$info['address'],
-			'mobile'=>$info['mobile'],
+			//'id'=>$info['u_id'],
+			'u_name'=>$info['u_name'],
+			'u_email'=>$info['u_email'],
+			'u_password'=>$info['u_password'],
+			'u_mobile'=>$info['u_mobile'],
+			'u_address'=>$info['u_address'],
+			'u_type'=>'user'
+			
 			);
 		$this->db->insert('user',$data);
+	}
+	public function insert_category($info)
+	{
+		$data=array(
+			'category_name'=>$info['name'],
+			'status'=>1,
+			'category_size'=>$info['size']
+			);
+		$this->db->insert('categories',$data);
 	}
 	
 }

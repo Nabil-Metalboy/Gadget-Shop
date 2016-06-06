@@ -23,17 +23,18 @@ class Users extends CI_Controller {
 
 		//$num_rows=$this->db->get_all_users()->result();
 		//$config['base_url'] = base_url().'/index.php/users';
-		$config['base_url'] = base_url().'index.php/user';
+		$config['base_url'] = base_url().'index.php/users';
 		$config['total_rows']=10;
 		$config['per_page']=5;
 		$config['num_links']=5;
 		$config['use-_page_numbers']=TRUE;
 		$this->pagination->initialize($config);
 
-		$data['user_list']=$this->db->get('users',$config['per_page'],$offset)->result();
-		//$data['user_list'] = $this->users_model->get_all_users();
+		//$data['user_list']=$this->db->get('user',$config['per_page'],$offset)->result();
+		$data['user_list'] = $this->users_model->get_all_users();//get all user from database
 
-		$data['product_list'] = $this->cart_model->get_all_product();
+		$data['product_list'] = $this->cart_model->get_all_product();//get all product from database
+		//print_r($data['product_list']);
 
 		$this->load->view('template/header', array
 		(
@@ -56,19 +57,21 @@ class Users extends CI_Controller {
 	}
 	public function insert_user()
 	{
-		$userid=$this->input->post('u_id');
+		//$userid=$this->input->post('u_id');
 		$username=$this->input->post('u_name');
+		$password=$this->input->post('u_pass');
 		$email=$this->input->post('u_email');
-		$address=$this->input->post('u_address');
 		$mobile=$this->input->post('u_mobile');
+		$address=$this->input->post('u_address');
+		
 
 		$this->users_model->insert_database(array(
-			'id'=>$userid,
-			'name'=>$username,
-			'email'=>$email,
-			'address'=>$address,
-			'mobile'=>$mobile
-
+			//'u_id'=>$userid,
+			'u_name'=>$username,
+			'u_password'=>$password,
+			'u_email'=>$email,
+			'u_mobile'=>$mobile,
+			'u_address'=>$address
 			));
 		redirect('/users/', true);
 
@@ -80,7 +83,7 @@ class Users extends CI_Controller {
 		$user = $this->users_model->get_single_user($userid);
 
 		$this->load->view('template/header', array(
-			'title' => $user->name . ' Profile'
+			'title' => $user->u_name . ' Profile'
 		));
 		$this->load->view('edit_profile', array(
 			'user' => $user
@@ -93,15 +96,19 @@ class Users extends CI_Controller {
 		$userid = $this->input->post('userid');
 		$username = $this->input->post('username');
 		$email=$this->input->post('email');
-		$address=$this->input->post('address');
+		$password=$this->input->post('password');
 		$mobile=$this->input->post('mobile');
+		$address=$this->input->post('address');
+		
 		
 		$this->users_model->update_user_data(array(
 			'id' => $userid,
-			'name' => $username,
-			'email'=>$email,
-			'address'=>$address,
-			'mobile'=>$mobile
+			'u_name' => $username,
+			'u_email'=>$email,
+			'u_password'=>$password,
+			'u_mobile'=>$mobile,
+			'u_address'=>$address
+			
 		));
 		redirect('/users/', true);
 	}
@@ -111,7 +118,7 @@ class Users extends CI_Controller {
 		$user = $this->users_model->get_single_user($userid);
 
 		$this->load->view('template/header', array(
-			'title' => $user->name . ' Profile'
+			'title' => $user->u_name . ' Profile'
 		));
 		$this->load->view('delete_profile', array(
 			'user' => $user
@@ -122,7 +129,7 @@ class Users extends CI_Controller {
 	{
 		$userid=$this->input->post('userid');
 		$this->users_model->delete_user_data(array(
-				'id'=>$userid
+				'u_id'=>$userid
 
 			));
 		redirect('/users/',true);
@@ -147,16 +154,24 @@ class Users extends CI_Controller {
 	}
 	public function insert_product()
 	{
-		$product_id=$this->input->post('p_id');
-		$product_quantity=$this->input->post('p_qty');
-		$product_price=$this->input->post('p_price');
+		//$product_id=$this->input->post('p_id');
 		$product_name=$this->input->post('p_name');
+		$product_image=$this->input->post('p_image');
+		$product_qty=$this->input->post('p_qty');
+		$product_price=$this->input->post('p_price');
+		$product_description=$this->input->post('p_description');
+		$c_id=$this->input->post('c_id');
+		$m_id=$this->input->post('m_id');
 
 		$this->cart_model->insert_cart(array(
-			'id'=>$product_id,
-			'qty'=>$product_quantity,
+			//'id'=>$product_id,
+			'name'=>$product_name,
+			'image'=>$product_image,
+			'qty'=>$product_qty,
 			'price'=>$product_price,
-			'name'=>$product_name
+			'description'=>$product_description,
+			'category'=>$c_id,
+			'manufacturer'=>$m_id
 			));
 		redirect('/users/', true);
 	}
@@ -180,7 +195,7 @@ class Users extends CI_Controller {
 		$product=$this->cart_model->get_single_product($pid);
 
 		$this->load->view('template/header', array(
-			'title' => $product->name . ' Profile'
+			'title' => $product->p_name . ' Profile'
 		));
 		$this->load->view('product_edit', array(
 			'product' => $product
@@ -192,7 +207,7 @@ class Users extends CI_Controller {
 		$product=$this->cart_model->get_single_product($pid);
 
 		$this->load->view('template/header', array(
-			'title' => $product->name . ' Profile'
+			'title' => $product->p_name . ' Profile'
 		));
 		$this->load->view('product_delete', array(
 			'product' => $product
@@ -204,7 +219,7 @@ class Users extends CI_Controller {
 	{
 		$productid = $this->input->post('productid');
 		$this->cart_model->delete_product_data(array(
-			'id'=>$productid
+			'p_id'=>$productid
 
 			));
 		redirect('/users/', true);
@@ -217,10 +232,10 @@ class Users extends CI_Controller {
 		$pname = $this->input->post('p_name');
 
 		$this->cart_model->update_product(array(
-			'id'=>$pid,
-			'qty'=>$pqty,
-			'price'=>$pprice,
-			'name'=>$pname,
+			'p_id'=>$pid,
+			'p_qty'=>$pqty,
+			'p_price'=>$pprice,
+			'p_name'=>$pname,
 			));
 		redirect('/users/',true);
 	}
@@ -240,10 +255,10 @@ class Users extends CI_Controller {
 	{
 		$product=$this->mproduct->find($id);
 		$data = array(
-               'id'      => $product->id,
+               'id'      => $product->p_id,
                'qty'     => 1,
-               'price'   => $product->price,
-               'name'    => $product->name
+               'price'   => $product->p_price,
+               'name'    => $product->p_name
             );
 		$this->cart->insert($data);
 		$this->load->view('template/header', array
@@ -268,7 +283,43 @@ class Users extends CI_Controller {
 		}
 		$this->load->view('user_cart');
 	}
+	public function add_to_category()
+	{
+		$this->load->view('template/header', array(
+			'title' =>'Add To Cart'
+		));
+		$this->load->view('insert_product_in_category');
+
+		$this->load->view('template/footer');	
+	}
+	public function insert_category_to_database()
+	{
+		$category_name = $this->input->post('c_name');
+		$category_size = $this->input->post('c_size');
+
+		$this->users_model->insert_category(array(
+			'name'=>$category_name,
+			'size'=>$category_size
+			));
+		redirect('/users/',true);
+	}
 
 }
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,13 +5,22 @@
 
 	<tr>
 
-		<th>Product Id</th>
+		<th>Product image</th>
 
-		<th>Product quantity</th>
+		<th>Product Name</th>
+
+		<th>Product qty</th>
+
+		<th>Product description</th>
 
 		<th>Product Price</th>
 
-		<th>Product Name</th>
+		<th>Manufacturer</th>
+
+		<th>Category Name</th>
+
+		<th>Size</th>
+
 		<th>Option</th>
 		<th>Option</th>
 		<th></th>
@@ -21,30 +30,43 @@
 
 	<tr>
 
-		<td><?php echo $p_key->id; ?></td>
+		<td><img src= "<?php echo $p_key->p_image ;?>"width=150 height=100></td>
 
-		<td><?php echo $p_key->qty; ?></td>
+		<td><?php echo $p_key->p_name; ?></td>
 
-		<td><?php echo $p_key->price; ?></td>
+		<td><?php echo $p_key->p_qty; ?></td>
 
-		<td><?php echo $p_key->name; ?></td>
+		<td><?php echo $p_key->p_description; ?></td>
 
-		<td><a href="/ci/index.php/users/edit_product/<?php echo $p_key->id; ?>" class="btn btn-info"onclick="return confirm('Are you sure  to Edit?')">Edit</a></td>
+		<td><?php echo $p_key->p_price; ?></td>
 
-		<td><a href="/ci/index.php/users/delete_product/<?php echo $p_key->id; ?>"class="btn btn-danger"onclick="return confirm('Are you sure  to Delete?')">Delete</a>
+		<td><?php echo $p_key->m_name; ?></td>
+
+		<td><?php echo $p_key->category_name ?></td>
+
+		<td><?php echo $p_key->category_size;?></td>
+
+		
+
+		<td><a href="/Fahim/index.php/users/edit_product/<?php echo $p_key->p_id; ?>" class="btn btn-info"onclick="return confirm('Are you sure  to Edit?')">Edit</a></td>
+
+		<td><a href="/Fahim/index.php/users/delete_product/<?php echo $p_key->p_id; ?>"class="btn btn-danger"onclick="return confirm('Are you sure  to Delete?')">Delete</a>
 		</td>
 
-		<td><a href="shoppingcart/buy/<?php echo $p_key->id ?>"><img src="/ci/assets/images/cart1.png" alt="nothing to show" height="35px" width="70px"></td>
+		<td><a href="shoppingcart/buy/<?php echo $p_key->p_id ?>"><img src="/Fahim/assets/images/cart1.png" alt="nothing to show" height="35px" width="70px"></td>
 	</tr>
 	
 	<?php }?>
 	</table>
 	<center>
 		<tr>
-			<td><a href="/ci/index.php/users/add_to_cart/" class="btn btn-info">Insert Product</a></td>
+			<td><a href="/Fahim/index.php/users/add_to_cart/" class="btn btn-info">Insert Product</a></td>
 		</tr>
 		<br>
 		<br>
+		<tr>
+			<td><a href="/Fahim/index.php/users/add_to_category/" class="btn btn-info">Insert Category</a></td>
+		</tr>
 	</center>
 </div>
 </div>

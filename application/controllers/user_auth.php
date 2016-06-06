@@ -40,17 +40,21 @@
 					'title'=>'Please Register To Login'
 					));
 				$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-				$this->form_validation->set_rules('email_value', 'Email', 'trim|required|xss_clean');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
+				$this->form_validation->set_rules('email_value', 'Email', 'trim|required|xss_clean');
+				$this->form_validation->set_rules('mobile', 'mobile number', 'trim|required|xss_clean');
+				$this->form_validation->set_rules('address', 'address is', 'trim|required|xss_clean');
 				if ($this->form_validation->run() == FALSE) {
 				$this->load->view('registration_form');
 			} else{
 				$data =array(
-						'user_name' => $this->input->post('username'),
-						'user_email' => $this->input->post('email_value'),
-						'user_password' => $this->input->post('password')
+						'u_name' => $this->input->post('username'),
+						'u_password' => $this->input->post('password'),
+						'u_email' => $this->input->post('email_value'),
+						'u_mobile'=> $this->input->post('mobile'),
+						'u_address'=> $this->input->post('address')
 					);
-				$result  = $this->login_database->registration_insert($data);
+				$result  = $this->users_model->insert_database($data);
 				if ($result == true) {
 					$data['message_display'] = 'Registration Successfully';
 					$this->load->view('login_form',$data);
@@ -97,12 +101,13 @@
 								(
 									'username'=>$result[0]->u_name,
 									'email' => $result[0]->u_email,
-									'type'=> $result[0]->u_type
+									'type'=> $result[0]->u_type,
+									'id'=> $result[0]->u_id
 								);
 
 								$this->session->set_userdata('logged_in',$session_data);
 
-								if($result[0]->u_type=='admin')
+								if($result[0]->u_type =='admin')
 									{
 										$this->load->view('template/header',array(
 										'title'=>'Hello Admin'
@@ -150,7 +155,7 @@
 			$sess_array = array(
 					'username' => ''
 				);
-			//$this->session->sess_destroy();
+			
 			
 			$this->session->unset_userdata('logged_in',$sess_array);
 			$data['message_display'] ='Successfully Logout';
@@ -159,6 +164,7 @@
 
 				));
 			$this->load->view('login_form',$data);
+			//$this->session->sess_destroy();
 			
 			$this->load->view('template/footer');
 		}

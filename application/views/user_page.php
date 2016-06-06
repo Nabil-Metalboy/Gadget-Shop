@@ -8,6 +8,7 @@
 	{
 		$username = ($this->session->userdata['logged_in']['username']);
 		$type = ($this->session->userdata['logged_in']['type']);
+		$id = ($this->session->userdata['logged_in']['id']);
 	} else 
 		{
 			header("location: login");
@@ -23,6 +24,9 @@
 	echo "<br/>";
 	echo "<br/>";
 	echo "Your type is <b>".$type."</b>";
+	echo "<br/>";
+	echo "<br/>";
+	echo "Your type is <b>".$id."</b>";
 ?>
 
 <br/>

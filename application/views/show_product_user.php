@@ -5,13 +5,18 @@
 
 	<tr>
 
-		<th>Product Id</th>
+		<th>Product Image</th>
 
-		<th>Product quantity</th>
+		<th>Product Name</th>
+
+		<th>Product Qty</th>
+
+		<th>Product Description</th>
 
 		<th>Product Price</th>
 
-		<th>Product Name</th>
+		<th>Manufacturer</th>
+
 		<th>Option</th>
 	</tr>
 
@@ -19,15 +24,20 @@
 
 	<tr>
 
-		<td><?php echo $p_key->id; ?></td>
+		<td><img src= "<?php echo $p_key->p_image;?>" width=150 height=100></td>
+        
+		<td><?php echo $p_key->p_name; ?></td>
 
-		<td><?php echo $p_key->qty; ?></td>
+		<td><?php echo $p_key->p_qty; ?></td>
 
-		<td><?php echo $p_key->price; ?></td>
+		<td><?php echo $p_key->p_description; ?></td>
 
-		<td><?php echo $p_key->name; ?></td>
+		<td><?php echo $p_key->p_price; ?></td>
 
-		<td><a href="buy_user/<?php echo $p_key->id ?>"><img src="/ci/assets/images/cart1.png" alt="nothing to show" height="35px" width="70px"></td>
+		<td><?php echo $p_key->m_name; ?></td>
+
+
+		<td><a href="buy_user/<?php echo $p_key->p_id ?>"><img src="/Fahim/assets/images/cart1.png" alt="nothing to show" height="35px" width="70px"></td>
 	</tr>
 	
 	<?php }?>

@@ -12,10 +12,12 @@
 
 <th>Email</th>
 
+<th>Mobile</th>
+
 <th>Address</th>
 
-<th>Mobile</th>
 <th>Option</th>
+
 <th>Option</th>
 
 </tr>
@@ -24,18 +26,20 @@
 
 <tr>
 
-<td><?php echo $u_key->id; ?></td>
+<td><?php echo $u_key->u_id; ?></td>
 
-<td><?php echo $u_key->name; ?></td>
+<td><?php echo $u_key->u_name; ?></td>
 
-<td><?php echo $u_key->email; ?></td>
+<td><?php echo $u_key->u_email; ?></td>
 
-<td><?php echo $u_key->address; ?></td>
+<td><?php echo $u_key->u_mobile; ?></td>
 
-<td><?php echo $u_key->mobile; ?></td>
+<td><?php echo $u_key->u_address; ?></td>
 
-<td><a href="/ci/index.php/users/edit/<?php echo $u_key->id; ?>" class="btn btn-info"  onclick="return confirm('Are you sure  to Edit?')">Edit</a></td>
-<td><a href="/ci/index.php/users/delete/<?php echo $u_key->id; ?>" class="btn btn-danger"onclick="return confirm('Are you sure  to Delete?')">Delete</a>
+
+
+<td><a href="/Fahim/index.php/users/edit/<?php echo $u_key->u_id; ?>" class="btn btn-info"  onclick="return confirm('Are you sure  to Edit?')">Edit</a></td>
+<td><a href="/Fahim/index.php/users/delete/<?php echo $u_key->u_id; ?>" class="btn btn-danger"onclick="return confirm('Are you sure  to Delete?')">Delete</a>
 </td>
 </tr>
 
@@ -53,7 +57,12 @@
 </div>
 <center>
 <tr>
-	<td><a href="/ci/index.php/users/insert/" class="btn btn-info">Insert New User</a></td>
+	<td><a href="/Fahim/index.php/users/insert/" class="btn btn-info">Insert New User</a></td>
+</tr>
+<br/>
+<br/>
+<tr>
+	<td><a href="/Fahim/index.php/shoppingcart/view_cart" class="btn btn-success">View Cart</a></td>
 </tr>
 <br/>
 <br/>
